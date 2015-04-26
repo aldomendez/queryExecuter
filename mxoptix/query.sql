@@ -1,0 +1,1 @@
+select sysdate date from dual --3
