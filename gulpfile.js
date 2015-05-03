@@ -2,6 +2,8 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var wait = require('gulp-wait');
 var get = require('simple-get');
+var rename = require('gulp-rename');
+var savefile = require('gulp-savefile');
 
 var BASE = __dirname;
 
@@ -33,7 +35,7 @@ copy = function copyAndReload (event) {
   get.post(opts, function (err, res){
     if (err) throw err
 
-    res.pipe(process.stdout);  
+    res.pipe(process.stdout).pipe(rename('ans.html')).pipe(savefile());  
   })
 
   // gulp.src(event.path)
