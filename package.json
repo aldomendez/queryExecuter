@@ -9,6 +9,7 @@
   "author": "Aldo Mendez",
   "license": "ISC",
   "dependencies": {
+    "concat-stream": "^1.4.8",
     "gulp": "~3.8.7",
     "gulp-rename": "^1.2.2",
     "gulp-savefile": "^0.1.1",
