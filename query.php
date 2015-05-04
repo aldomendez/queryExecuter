@@ -8,28 +8,42 @@ $app->post('/', 'index' );
 
 function index(){
 
-    global $app;
-    $body = $app->request()->getBody();
-    $body = json_decode($body, true);
-    // parse_str($body, $body);
-    print_r( $body );
+    try {
+        
+        $DB = new MxOptix();
 
-    // $query = "";
-    $DB = new MxOptix();
-    $DB->setQuery($body['query']);
-    echo $body['query'];
-    oci_execute($DB->statement);
-    $results = null;
-    oci_fetch_all($DB->statement, $results,0,-1,OCI_FETCHSTATEMENT_BY_ROW);
-    // $json = $DB->json();
-    print_r($results);
-    echo PHP_EOL;
-    // if ($json == "[]") {
-    //     throw new Exception("No arrojo datos la base de datos", 1);
-    // } else {
-    //     echo implode(',', $results['SERIAL_NUM']);
-    // }
-    $DB->close();
+        global $app;
+        $body = $app->request()->getBody();
+        $body = json_decode($body, true);
+        // print_r($body);
+        $DB->setQuery($body['query']);
+        $results = null;
+        oci_execute($DB->statement);
+        oci_fetch_all($DB->statement, $results,0,-1,OCI_FETCHSTATEMENT_BY_ROW);
+        // print_r($results);
+        echo array2csv($results). PHP_EOL;
+        $DB->close();
+    } catch (Exception $e) {
+        $DB->close();
+        echo ('Caught exception: '.  $e->getMessage(). "\n");
+    }
+}
+
+
+function array2csv($array) {
+    $ans = '';
+    $start = true;
+    foreach($array as $key => $value) {
+        if ($start) {
+            foreach ($value as $key2 => $value2) {
+                $ans .= $key2 .',';
+            }
+            $ans .= PHP_EOL;
+            $start = false;
+        }
+        $ans .= implode(',', $value) . PHP_EOL;
+    }
+    return $ans;
 }
 
 $app->run();
