@@ -21,6 +21,7 @@ function index(){
         oci_execute($DB->statement);
         oci_fetch_all($DB->statement, $results,0,-1,OCI_FETCHSTATEMENT_BY_ROW);
         // print_r($results);
+        // print_r($results);
         echo array2csv($results). PHP_EOL;
         $DB->close();
     } catch (Exception $e) {
@@ -33,12 +34,13 @@ function index(){
 function array2csv($array) {
     $ans = '';
     $start = true;
+    $head = array();
     foreach($array as $key => $value) {
         if ($start) {
             foreach ($value as $key2 => $value2) {
-                $ans .= $key2 .',';
+                array_push($head, $key2);
             }
-            $ans .= PHP_EOL;
+            $ans .= implode(",", $head) . PHP_EOL;
             $start = false;
         }
         $ans .= implode(',', $value) . PHP_EOL;
