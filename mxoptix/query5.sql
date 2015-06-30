@@ -1,0 +1,1 @@
+select * from dare_pkg.mv_pkg10gfunct_rpt
