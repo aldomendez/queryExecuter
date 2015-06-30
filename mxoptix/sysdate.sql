@@ -1,1 +1,0 @@
-SELECT to_char(sysdate,'dd-mm-yy hh:mi') fecha from dual

@@ -1,1 +1,0 @@
-select 'wd_db',sysdate from dual
